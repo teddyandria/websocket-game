@@ -1,0 +1,59 @@
+.actions-feed-container {
+  flex: 1;
+  min-width: 300px;
+}
+
+.actions-feed-container h4 {
+  margin-bottom: 15px;
+}
+
+.actions-feed {
+  height: 200px;
+  overflow-y: auto;
+  background: #fff8e6;
+  padding: 12px;
+  border: 2px solid #8b4513;
+  font-family: 'Crimson Text', serif;
+}
+
+.actions-feed::-webkit-scrollbar {
+  width: 8px;
+}
+
+.actions-feed::-webkit-scrollbar-track {
+  background: #e6d3a7;
+}
+
+.actions-feed::-webkit-scrollbar-thumb {
+  background: #8b4513;
+  border-radius: 4px;
+}
+
+.action-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(139,69,19,0.2);
+  font-size: 14px;
+  color: #2c1810;
+}
+
+.action-item:last-child {
+  border-bottom: none;
+}
+
+.action-item.global {
+  font-weight: 600;
+  color: #1565c0;
+}
+
+.action-item.private {
+  font-weight: 600;
+  color: #c62828;
+  font-style: italic;
+}
+
+.no-actions {
+  text-align: center;
+  color: #8b6914;
+  font-style: italic;
+  padding: 20px;
+}

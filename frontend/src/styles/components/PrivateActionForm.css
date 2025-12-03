@@ -1,0 +1,33 @@
+.interaction-form {
+  min-width: 300px;
+}
+
+.interaction-form h4 {
+  margin-bottom: 15px;
+}
+
+.player-select {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.message-input {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group .btn {
+  flex: 1;
+}
+
+.no-players {
+  text-align: center;
+  color: #8b6914;
+  font-style: italic;
+  padding: 20px 0;
+}

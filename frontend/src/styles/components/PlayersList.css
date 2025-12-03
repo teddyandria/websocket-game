@@ -1,0 +1,208 @@
+.players-panel {
+  background: 
+    linear-gradient(135deg, #f4e4bc 0%, #e6d3a7 50%, #f4e4bc 100%);
+  border: 3px solid #8b4513;
+  padding: 25px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  position: relative;
+  width: 300px;
+  min-height: 400px;
+  flex-shrink: 0;
+}
+
+.players-panel::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #daa520, #8b4513);
+  z-index: -1;
+}
+
+.players-panel h3 {
+  font-family: 'Cinzel', serif;
+  color: #2c1810;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(218,165,32,0.3);
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: 
+    linear-gradient(135deg, rgba(139,69,19,0.1), rgba(218,165,32,0.1));
+  border: 2px solid #8b4513;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.2),
+    inset 0 1px 3px rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.player-item.current {
+  background: 
+    linear-gradient(135deg, rgba(218,165,32,0.3), rgba(139,69,19,0.2));
+  border-color: #daa520;
+  box-shadow: 
+    0 6px 12px rgba(218,165,32,0.4),
+    inset 0 1px 3px rgba(255,255,255,0.3);
+}
+
+.player-item:hover {
+  background: 
+    linear-gradient(135deg, rgba(139,69,19,0.15), rgba(218,165,32,0.15));
+  transform: translateX(3px);
+}
+
+.player-avatar-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.player-avatar,
+.player-avatar-placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  object-fit: cover;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(255,255,255,0.2);
+}
+
+.player-avatar {
+  border-color: #daa520;
+}
+
+.player-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.player-avatar-placeholder.player1 {
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #dc3545 70%);
+  border-color: #ff6b6b;
+}
+
+.player-avatar-placeholder.player2 {
+  background: radial-gradient(circle at 30% 30%, #ffeb3b, #ffc107 70%);
+  border-color: #ffeb3b;
+}
+
+.player-color-indicator {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #f4e4bc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.player-color-indicator.player1 {
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #dc3545 70%);
+}
+
+.player-color-indicator.player2 {
+  background: radial-gradient(circle at 30% 30%, #ffeb3b, #ffc107 70%);
+}
+
+.player-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.player-name {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #2c1810;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.you-badge {
+  font-size: 11px;
+  font-family: 'Crimson Text', serif;
+  background: #daa520;
+  color: #2c1810;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.player-color-label {
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.player-color-label.player1 {
+  color: #dc3545;
+}
+
+.player-color-label.player2 {
+  color: #f39c12;
+}
+
+@media (max-width: 1024px) {
+  .players-panel {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .players-list {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .player-item {
+    flex: 0 0 auto;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .players-panel {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .players-list {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .player-item {
+    flex: 0 0 auto;
+    min-width: 150px;
+  }
+}

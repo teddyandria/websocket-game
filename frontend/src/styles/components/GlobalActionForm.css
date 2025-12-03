@@ -1,0 +1,23 @@
+.interaction-form {
+  min-width: 300px;
+}
+
+.interaction-form h4 {
+  margin-bottom: 15px;
+}
+
+.message-input {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.button-group .btn {
+  flex: 1;
+  min-width: 120px;
+}

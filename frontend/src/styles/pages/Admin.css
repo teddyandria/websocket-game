@@ -1,0 +1,371 @@
+.admin-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
+  padding: 40px 20px;
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f4e4bc 0%, #e6d3a7 50%, #f4e4bc 100%);
+  border: 3px solid #8b4513;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.admin-container::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #daa520, #8b4513);
+  z-index: -1;
+  border-radius: 12px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #8b4513;
+}
+
+.admin-header h1 {
+  font-family: 'Cinzel', serif;
+  color: #2c1810;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.btn-back {
+  background: linear-gradient(135deg, #8b4513, #654321);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: 'Crimson Text', serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  background: linear-gradient(135deg, #654321, #8b4513);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #8b4513;
+}
+
+.admin-tabs button {
+  background: none;
+  border: none;
+  padding: 15px 30px;
+  font-family: 'Crimson Text', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c1810;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.admin-tabs button:hover {
+  background: rgba(139, 69, 19, 0.1);
+}
+
+.admin-tabs button.tab-active {
+  color: #daa520;
+  border-bottom-color: #daa520;
+  background: rgba(218, 165, 32, 0.1);
+}
+
+.admin-content {
+  min-height: 400px;
+}
+
+.alert {
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 16px;
+}
+
+.alert-error {
+  background: #fee;
+  color: #c33;
+  border: 2px solid #c33;
+}
+
+.alert-success {
+  background: #efe;
+  color: #3c3;
+  border: 2px solid #3c3;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  color: #2c1810;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Tables */
+.users-table,
+.games-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Crimson Text', serif;
+}
+
+thead {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2), rgba(218, 165, 32, 0.2));
+}
+
+thead th {
+  padding: 15px;
+  text-align: left;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c1810;
+  border-bottom: 2px solid #8b4513;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: rgba(218, 165, 32, 0.1);
+}
+
+tbody tr.admin-row {
+  background: rgba(218, 165, 32, 0.15);
+}
+
+tbody td {
+  padding: 12px 15px;
+  font-size: 15px;
+  color: #2c1810;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-admin {
+  background: #daa520;
+  color: #2c1810;
+}
+
+.badge-user {
+  background: rgba(139, 69, 19, 0.2);
+  color: #2c1810;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Crimson Text', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-small:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-warning {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background: #e67e22;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Active Games Grid */
+.active-games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.active-game-card {
+  background: white;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.game-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.2);
+}
+
+.game-card-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #2c1810;
+  margin: 0;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-active {
+  background: #28a745;
+  color: white;
+}
+
+.status-ended {
+  background: #6c757d;
+  color: white;
+}
+
+.game-card-body {
+  margin-bottom: 15px;
+}
+
+.game-card-body p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #2c1810;
+}
+
+.players-list-admin {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.players-list-admin li {
+  padding: 5px 0;
+  font-size: 14px;
+  color: #2c1810;
+}
+
+.btn-full {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .admin-container {
+    padding: 20px;
+  }
+
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .admin-tabs button {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+  }
+
+  .active-games-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .admin-tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .admin-tabs button {
+    text-align: left;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .admin-tabs button.tab-active {
+    border-left-color: #daa520;
+    border-bottom-color: transparent;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  thead th,
+  tbody td {
+    padding: 8px;
+  }
+}

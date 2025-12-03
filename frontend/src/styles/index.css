@@ -1,0 +1,352 @@
+/* Imports de polices - doivent être en premier */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* Reset et styles de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Crimson Text', serif;
+  background: 
+    radial-gradient(ellipse at center, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #1a1a1a 0%, #2c1810 25%, #4a2c17 50%, #2c1810 75%, #1a1a1a 100%);
+  min-height: 100vh;
+  color: #f4e4bc;
+  position: relative;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(218, 165, 32, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(160, 82, 45, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Styles de titre médiéval */
+h1 {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  color: #daa520;
+  margin-bottom: 30px;
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-shadow: 
+    0 0 10px rgba(218, 165, 32, 0.5),
+    2px 2px 4px rgba(0,0,0,0.8),
+    4px 4px 8px rgba(0,0,0,0.4);
+  letter-spacing: 3px;
+  position: relative;
+}
+
+h1::before {
+  content: '⚔️';
+  position: absolute;
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-15deg);
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+}
+
+h1::after {
+  content: '⚔️';
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%) rotate(15deg) scaleX(-1);
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+}
+
+h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+  color: #2c1810;
+}
+
+/* Styles des cartes parchemin */
+.card {
+  background: 
+    linear-gradient(45deg, #f4e4bc 0%, #e6d3a7 50%, #f4e4bc 100%);
+  border: 3px solid #8b4513;
+  border-radius: 0;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.4),
+    inset 0 1px 3px rgba(218,165,32,0.3),
+    inset 0 -1px 3px rgba(139,69,19,0.3);
+  position: relative;
+  color: #2c1810;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, #daa520, #8b4513, #daa520);
+  z-index: -1;
+  border-radius: 2px;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  pointer-events: none;
+}
+
+/* Styles des boutons médiévaux */
+.btn {
+  font-family: 'Cinzel', serif;
+  padding: 15px 30px;
+  border: 2px solid #8b4513;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #daa520, #b8860b);
+  color: #2c1810;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #b8860b, #daa520);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(218,165,32,0.4);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  color: #f4e4bc;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(218,165,32,0.2);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #a0522d, #8b4513);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(139,69,19,0.4);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #228b22, #32cd32);
+  color: #f4e4bc;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(218,165,32,0.2);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #32cd32, #228b22);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(34,139,34,0.4);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #daa520, #b8860b);
+  color: #2c1810;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.btn-warning:hover {
+  background: linear-gradient(135deg, #b8860b, #daa520);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(218,165,32,0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #8b0000, #dc143c);
+  color: #f4e4bc;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.3),
+    inset 0 1px 2px rgba(218,165,32,0.2);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #dc143c, #8b0000);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(139,0,0,0.4);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Styles des inputs */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #8b4513;
+  border-radius: 0;
+  font-size: 16px;
+  font-family: 'Crimson Text', serif;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  background: 
+    linear-gradient(135deg, #f4e4bc, #e6d3a7);
+  color: #2c1810;
+  box-shadow: 
+    inset 2px 2px 5px rgba(139,69,19,0.2),
+    inset -2px -2px 5px rgba(255,255,255,0.3);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #daa520;
+  box-shadow: 
+    inset 2px 2px 5px rgba(139,69,19,0.3),
+    inset -2px -2px 5px rgba(255,255,255,0.4),
+    0 0 10px rgba(218,165,32,0.3);
+  background: 
+    linear-gradient(135deg, #f8f0d4, #f4e4bc);
+}
+
+input::placeholder {
+  color: #8b6914;
+  font-style: italic;
+}
+
+/* Alertes */
+.alert {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 2px solid;
+  font-family: 'Crimson Text', serif;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.alert-error {
+  background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 50%, #ffcdd2 100%);
+  border-color: #c62828;
+  color: #b71c1c;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #f4e4bc, #e6d3a7);
+  border: 3px solid #8b4513;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  min-width: 400px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  font-family: 'Cinzel', serif;
+  color: #2c1810;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.loading h2 {
+  color: #daa520;
+  font-family: 'Cinzel', serif;
+  margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h1::before,
+  h1::after {
+    display: none;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .modal-content {
+    min-width: 90%;
+    padding: 20px;
+  }
+}
