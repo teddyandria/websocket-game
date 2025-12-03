@@ -5,18 +5,15 @@ Un jeu de Puissance 4 multijoueur en ligne avec une architecture moderne sépara
 ## Fonctionnalités
 
 - 🎮 **Jeu multijoueur** en temps réel via WebSocket
-- 🤖 **Intelligence Artificielle** avec 4 niveaux (Facile, Moyen, Difficile, Impossible)
+- 🤖 **Intelligence Artificielle** avec 4 niveaux (Facile, Moyen, Difficile)
 - 👤 **Système d'authentification** hybride (invité ou compte utilisateur)
 - 🔐 **Comptes utilisateurs** avec profils personnalisables
 - 💬 **Chat privé** entre joueurs pendant les parties
 - 📊 **Historique des parties** pour les utilisateurs connectés
 - 🛡️ **Panneau d'administration** pour gérer utilisateurs et parties
-- ⚛️ **Interface React moderne** avec thème médiéval
 - 🔄 **Communication temps réel** via Socket.IO
 - 🎯 **Détection automatique** des victoires et égalités
 - 👥 **Gestion des joueurs** (connexion/déconnexion)
-- 🎨 **Design médiéval** inspiré de The Witcher
-- 📱 **Responsive** (desktop, tablette, mobile)
 
 ## Architecture
 
@@ -90,28 +87,6 @@ Un compte administrateur est créé automatiquement au démarrage du serveur bac
 - **Email** : `admin@puissance4.local`
 
 Ces valeurs peuvent être modifiées dans le fichier `backend/.env` :
-
-```env
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin1234
-ADMIN_EMAIL=admin@puissance4.local
-```
-
-### Variables d'environnement
-
-Le fichier `backend/.env` contient :
-
-```env
-# Clé secrète Flask (générez-en une unique pour la production)
-SECRET_KEY=votre_clé_secrète_super_sécurisée_changez_moi
-
-# Base de données
-DATABASE_PATH=puissance4.db
-
-# Compte admin par défaut
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin1234
-ADMIN_EMAIL=admin@puissance4.local
 ```
 
 ## Utilisation
@@ -197,16 +172,10 @@ ADMIN_EMAIL=admin@puissance4.local
 - **React 18** : Bibliothèque UI moderne et performante
 - **Vite** : Build tool ultra-rapide avec HMR
 - **Socket.IO Client** : Communication WebSocket
-- **React Router** : Navigation entre pages
-- **CSS3** : Design responsive avec Grid et Flexbox
-- **Google Fonts** : Cinzel et Crimson Text pour le thème médiéval
 
 ### Architecture
 - **Séparation backend/frontend** : API REST + WebSocket
 - **Communication temps réel** : Synchronisation bidirectionnelle via Socket.IO
-- **Système de salles** : Isolation des parties multijoueur
-- **Design responsive** : Compatible desktop, tablette et mobile
-- **Thème médiéval** : Inspiré de l'univers The Witcher
 
 ## Configuration
 
@@ -222,25 +191,5 @@ ADMIN_EMAIL=admin@puissance4.local
 - HMR : Activé (hot module replacement)
 
 Pour un déploiement en production, modifiez ces paramètres dans `app.py`.
-
-## Développement
-
-Pour contribuer au projet :
-
-1. Le code backend se trouve dans `app.py`
-2. La logique du jeu est dans la classe `Puissance4`
-3. L'interface utilisateur est dans les templates HTML
-4. Les styles sont dans `static/css/style.css`
-5. La logique frontend est dans `static/js/`
-
-## Améliorations possibles
-
-- [ ] Système de classement
-- [ ] Sauvegarde des parties
-- [ ] Mode solo contre IA
-- [ ] Animations améliorées
-- [ ] Support de plus de 2 joueurs
-- [ ] Chat en temps réel
-- [ ] Personnalisation des couleurs
 
 Amusez-vous bien ! 🎮
