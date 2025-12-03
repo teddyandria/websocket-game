@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/components/PlayersList.css';
 
-const PlayersList = ({ players, currentPlayer, user }) => {
+const PlayersList = ({ players, spectators, currentPlayer, user }) => {
   if (!players || Object.keys(players).length === 0) {
     return (
       <div className="players-panel">
@@ -14,7 +14,6 @@ const PlayersList = ({ players, currentPlayer, user }) => {
   }
 
   const getPlayerAvatar = (player) => {
-    // Si c'est l'utilisateur connecté, utiliser son avatar
     if (user && player.name === (user.display_name || user.username)) {
       return user.avatar_url;
     }
@@ -58,6 +57,32 @@ const PlayersList = ({ players, currentPlayer, user }) => {
           );
         })}
       </div>
+
+      {spectators && Object.keys(spectators).length > 0 && (
+        <>
+          <h3 className="spectators-title">👁️ Spectateurs ({Object.keys(spectators).length})</h3>
+          <div className="spectators-list">
+            {Object.values(spectators).map((spectator, index) => {
+              const avatarUrl = getPlayerAvatar(spectator);
+              
+              return (
+                <div key={index} className="spectator-item">
+                  <div className="spectator-avatar-container">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt={spectator.name} className="spectator-avatar" />
+                    ) : (
+                      <div className="spectator-avatar-placeholder">
+                        {getPlayerInitial(spectator.name)}
+                      </div>
+                    )}
+                  </div>
+                  <span className="spectator-name">{spectator.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };

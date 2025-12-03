@@ -61,7 +61,6 @@ def token_required(f):
         if not user_data:
             return jsonify({'error': 'Token invalide ou expiré'}), 401
         
-        # Ajouter les données utilisateur à la requête
         request.current_user = user_data
         return f(*args, **kwargs)
     

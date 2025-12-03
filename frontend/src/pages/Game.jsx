@@ -8,6 +8,7 @@ import PlayersList from '../components/PlayersList';
 import GameStatus from '../components/GameStatus';
 import GameControls from '../components/GameControls';
 import GameHistory from '../components/GameHistory';
+import GlobalScore from '../components/GlobalScore';
 import '../styles/pages/Game.css';
 
 const Game = () => {
@@ -34,7 +35,6 @@ const Game = () => {
   const [showNameModal, setShowNameModal] = useState(!playerName);
   const [tempPlayerName, setTempPlayerName] = useState('');
 
-  // Rejoindre automatiquement si nom fourni dans URL
   useEffect(() => {
     if (socket && playerName && gameId) {
       joinGame(playerName);
@@ -89,11 +89,16 @@ const Game = () => {
       <div className="game-layout">
         <PlayersList 
           players={gameState?.players} 
+          spectators={gameState?.spectators}
           currentPlayer={currentPlayer}
           user={user}
         />
 
         <div className="game-board-container">
+          <GlobalScore 
+            score={gameState?.global_score} 
+            players={gameState?.players}
+          />
           <Board
             board={gameState?.board}
             onCellClick={handleCellClick}

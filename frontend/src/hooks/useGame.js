@@ -28,6 +28,11 @@ export const useGame = (socket, gameId) => {
       return;
     }
 
+    if (playerInfo?.role === 'spectator') {
+      setError('Les spectateurs ne peuvent pas jouer !');
+      return;
+    }
+
     if (!gameState.ai_enabled && (!gameState.players || Object.keys(gameState.players).length < 2)) {
       setError('Attendez qu\'un autre joueur rejoigne la partie !');
       return;
@@ -43,7 +48,7 @@ export const useGame = (socket, gameId) => {
       game_id: gameId,
       col: col
     });
-  }, [socket, gameId, gameState, currentPlayer]);
+  }, [socket, gameId, gameState, currentPlayer, playerInfo]);
 
   // Recommencer la partie
   const resetGame = useCallback(() => {
@@ -86,6 +91,10 @@ export const useGame = (socket, gameId) => {
       console.log('👤 Joueur assigné:', data);
       setCurrentPlayer(data.player_number);
       setPlayerInfo(data);
+      
+      if (data.role === 'spectator') {
+        setStatusMessage('Vous êtes spectateur 👁️');
+      }
     });
 
     // Joueur rejoint
@@ -98,10 +107,22 @@ export const useGame = (socket, gameId) => {
       }
     });
 
+    // Spectateur rejoint
+    socket.on('spectator_joined', (data) => {
+      console.log('👁️ Spectateur a rejoint:', data);
+      setStatusMessage(`${data.spectator_name} regarde la partie (${data.spectators_count} spectateur(s))`);
+    });
+
     // Joueur quitté
     socket.on('player_left', (data) => {
       console.log('👋 Joueur a quitté:', data);
       setStatusMessage(`${data.player_name} a quitté la partie (${data.players_count}/2)`);
+    });
+
+    // Spectateur quitté
+    socket.on('spectator_left', (data) => {
+      console.log('👋 Spectateur a quitté:', data);
+      setStatusMessage(`${data.spectator_name} ne regarde plus (${data.spectators_count} spectateur(s))`);
     });
 
     // État du jeu mis à jour
@@ -133,14 +154,30 @@ export const useGame = (socket, gameId) => {
       setError(data.message);
     });
 
+    // Partie terminée (joueur déconnecté)
+    socket.on('game_ended', (data) => {
+      console.log('🛑 Partie terminée:', data);
+      setStatusMessage(data.message);
+      setGameState(prev => ({ ...prev, game_over: true }));
+      
+      if (data.redirect) {
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+      }
+    });
+
     // Cleanup
     return () => {
       socket.off('player_assigned');
       socket.off('player_joined');
+      socket.off('spectator_joined');
       socket.off('player_left');
+      socket.off('spectator_left');
       socket.off('game_state');
       socket.off('move_made');
       socket.off('error');
+      socket.off('game_ended');
     };
   }, [socket]);
 

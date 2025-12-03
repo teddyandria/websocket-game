@@ -26,18 +26,16 @@ socketio = SocketIO(
     ping_interval=25
 )
 
-# Stockage des parties en cours
 games = {}
+connected_users = {}
 
-# Enregistre les blueprints
 app.register_blueprint(auth_bp, url_prefix='/api')
 app.register_blueprint(admin_bp, url_prefix='/api/admin')
 app.register_blueprint(game_bp)
 
-# Initialise les routes avec les dépendances nécessaires
 init_game_routes(games)
-init_admin_routes(games, socketio)
-init_socketio_handlers(socketio, games)
+init_admin_routes(games, socketio, connected_users)
+init_socketio_handlers(socketio, games, connected_users)
 
 
 def init_admin_user():

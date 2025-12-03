@@ -23,7 +23,6 @@ const Home = () => {
   const [authModalMode, setAuthModalMode] = useState('login');
 
   const handleCreateGame = async () => {
-    // Vérifier si l'utilisateur est connecté
     if (!isAuthenticated()) {
       setAuthModalMode('login');
       setShowAuthModal(true);
@@ -40,7 +39,6 @@ const Home = () => {
       if (response.ok) {
         const data = await response.json();
         setCreatedGameId(data.game_id);
-        // Utiliser le nom de l'utilisateur connecté
         setPlayerNameCreator(user.display_name || user.username);
       } else {
         alert('Erreur lors de la création de la partie');
@@ -133,7 +131,6 @@ const Home = () => {
 
   return (
     <div className="container">
-      {/* Barre de navigation */}
       <nav className="navbar">
         <div className="nav-left">
           <h1>🔴 Puissance 4 🟡</h1>
@@ -321,7 +318,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Modals */}
       <AuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}

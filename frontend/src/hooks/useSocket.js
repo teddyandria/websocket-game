@@ -37,9 +37,16 @@ export const useSocket = () => {
       setConnected(false);
     });
 
+    newSocket.on('force_disconnect', (data) => {
+      console.log('⚠️ Déconnexion forcée par admin:', data.message);
+      alert(data.message);
+      window.location.href = '/';
+    });
+
     // Cleanup lors du démontage
     return () => {
       console.log('🔌 Fermeture de la connexion socket');
+      newSocket.off('force_disconnect');
       newSocket.close();
     };
   }, []);

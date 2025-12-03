@@ -11,18 +11,17 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
   const [games, setGames] = useState([]);
   const [activeGames, setActiveGames] = useState([]);
+  const [connectedUsers, setConnectedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Vérifier si l'utilisateur est admin
   useEffect(() => {
     if (!user || !user.is_admin) {
       navigate('/');
     }
   }, [user, navigate]);
 
-  // Charger les données selon l'onglet actif
   useEffect(() => {
     if (activeTab === 'users') {
       loadUsers();
@@ -30,6 +29,8 @@ const Admin = () => {
       loadGames();
     } else if (activeTab === 'active-games') {
       loadActiveGames();
+    } else if (activeTab === 'connected-users') {
+      loadConnectedUsers();
     }
   }, [activeTab]);
 
@@ -95,6 +96,29 @@ const Admin = () => {
         setActiveGames(data.active_games);
       } else {
         setError('Erreur lors du chargement des parties actives');
+      }
+    } catch (err) {
+      setError('Erreur de connexion au serveur');
+    }
+    setLoading(false);
+  };
+
+  const loadConnectedUsers = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch('http://localhost:5001/api/admin/connected-users', {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setConnectedUsers(data.connected_users);
+      } else {
+        setError('Erreur lors du chargement des utilisateurs connectés');
       }
     } catch (err) {
       setError('Erreur de connexion au serveur');
@@ -209,6 +233,33 @@ const Admin = () => {
     }
   };
 
+  const disconnectUser = async (sid) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir déconnecter cet utilisateur ?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5001/api/admin/connected-users/${sid}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        }
+      });
+
+      if (response.ok) {
+        setSuccessMessage('Utilisateur déconnecté avec succès');
+        loadConnectedUsers();
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        const data = await response.json();
+        setError(data.error || 'Erreur lors de la déconnexion');
+      }
+    } catch (err) {
+      setError('Erreur de connexion au serveur');
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -250,6 +301,12 @@ const Admin = () => {
             onClick={() => setActiveTab('active-games')}
           >
             🎮 Parties actives ({activeGames.length})
+          </button>
+          <button
+            className={activeTab === 'connected-users' ? 'tab-active' : ''}
+            onClick={() => setActiveTab('connected-users')}
+          >
+            🟢 En ligne ({connectedUsers.length})
           </button>
         </div>
 
@@ -387,6 +444,53 @@ const Admin = () => {
                     </div>
                   ))}
                   {activeGames.length === 0 && <p className="no-data">Aucune partie active</p>}
+                </div>
+              )}
+
+              {activeTab === 'connected-users' && (
+                <div className="connected-users-section">
+                  <div className="section-header">
+                    <h2>Utilisateurs connectés</h2>
+                    <button onClick={loadConnectedUsers} className="btn-refresh">
+                      🔄 Actualiser
+                    </button>
+                  </div>
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Statut</th>
+                        <th>Partie</th>
+                        <th>Connecté depuis</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {connectedUsers.map(cu => (
+                        <tr key={cu.sid}>
+                          <td>{cu.username}</td>
+                          <td>
+                            <span className={`badge badge-${cu.role === 'idle' ? 'idle' : cu.role === 'player' ? 'player' : 'spectator'}`}>
+                              {cu.role === 'idle' ? '💤 Inactif' : cu.role === 'player' ? '🎮 Joueur' : '👁️ Spectateur'}
+                            </span>
+                          </td>
+                          <td>
+                            {cu.in_game ? cu.in_game.substring(0, 8) + '...' : '-'}
+                          </td>
+                          <td>{formatDate(cu.connected_at)}</td>
+                          <td>
+                            <button
+                              onClick={() => disconnectUser(cu.sid)}
+                              className="btn-danger btn-small"
+                            >
+                              🚫 Déconnecter
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {connectedUsers.length === 0 && <p className="no-data">Aucun utilisateur connecté</p>}
                 </div>
               )}
             </>

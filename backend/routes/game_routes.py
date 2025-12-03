@@ -7,7 +7,6 @@ from ai import PuissanceAI
 
 game_bp = Blueprint('game', __name__)
 
-# Variable globale pour le dictionnaire des parties
 _games = None
 
 def init_game_routes(games):
@@ -22,10 +21,12 @@ class Puissance4:
         self.board = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         self.current_player = 1
         self.players = {}
+        self.spectators = {}
         self.game_over = False
         self.winner = None
         self.ai_enabled = ai_enabled
         self.ai = PuissanceAI(difficulty) if ai_enabled else None
+        self.global_score = {'player1': 0, 'player2': 0, 'draws': 0}
         
     def drop_piece(self, col, player):
         if col < 0 or col >= self.cols or self.game_over:
@@ -82,10 +83,21 @@ class Puissance4:
             'board': self.board,
             'current_player': self.current_player,
             'players': self.players,
+            'spectators': self.spectators,
             'game_over': self.game_over,
             'winner': self.winner,
-            'ai_enabled': self.ai_enabled
+            'ai_enabled': self.ai_enabled,
+            'global_score': self.global_score
         }
+    
+    def update_score(self, winner):
+        """Met à jour le score global après une victoire"""
+        if winner == 1:
+            self.global_score['player1'] += 1
+        elif winner == 2:
+            self.global_score['player2'] += 1
+        elif winner == 0:
+            self.global_score['draws'] += 1
 
 @game_bp.route('/join_game/<game_id>')
 def join_game(game_id):
@@ -111,7 +123,8 @@ def create_ai_game():
     
     return {'game_id': game_id, 'difficulty': difficulty}
 
-def init_socketio_handlers(socketio, games):
+def init_socketio_handlers(socketio, games, connected_users):
+    from datetime import datetime
     
     def emit_game_state(game_id):
         if game_id not in games:
@@ -119,10 +132,22 @@ def init_socketio_handlers(socketio, games):
         game = games[game_id]
         socketio.emit('game_state', game.to_dict(), room=game_id)
     
+    @socketio.on('connect')
+    def on_connect():
+        connected_users[request.sid] = {
+            'sid': request.sid,
+            'username': 'Anonyme',
+            'connected_at': datetime.now().isoformat()
+        }
+        print(f"✅ Utilisateur connecté: {request.sid} (Total: {len(connected_users)})")
+    
     @socketio.on('join_game')
     def on_join_game(data):
         game_id = data['game_id']
         player_name = data['player_name']
+        
+        if request.sid in connected_users:
+            connected_users[request.sid]['username'] = player_name
         
         if game_id not in games:
             emit('error', {'message': 'Partie non trouvée'})
@@ -142,7 +167,8 @@ def init_socketio_handlers(socketio, games):
                 emit('player_assigned', {
                     'player_number': 1,
                     'name': player_name,
-                    'sid': request.sid
+                    'sid': request.sid,
+                    'role': 'player'
                 }, room=request.sid)
         else:
             if len(game.players) < 2:
@@ -156,16 +182,34 @@ def init_socketio_handlers(socketio, games):
                 emit('player_assigned', {
                     'player_number': player_number,
                     'name': player_name,
-                    'sid': request.sid
+                    'sid': request.sid,
+                    'role': 'player'
                 }, room=request.sid)
                 
                 emit('player_joined', {
                     'player_name': player_name,
                     'player_number': player_number,
-                    'players_count': len(game.players)
+                    'players_count': len(game.players),
+                    'spectators_count': len(game.spectators)
                 }, room=game_id)
             else:
-                emit('error', {'message': 'Partie pleine'})
+                game.spectators[request.sid] = {
+                    'name': player_name,
+                    'sid': request.sid
+                }
+                
+                emit('player_assigned', {
+                    'player_number': None,
+                    'name': player_name,
+                    'sid': request.sid,
+                    'role': 'spectator'
+                }, room=request.sid)
+                
+                emit('spectator_joined', {
+                    'spectator_name': player_name,
+                    'players_count': len(game.players),
+                    'spectators_count': len(game.spectators)
+                }, room=game_id)
                 return
         
         emit_game_state(game_id)
@@ -213,9 +257,11 @@ def init_socketio_handlers(socketio, games):
             if winner:
                 game.game_over = True
                 game.winner = winner
+                game.update_score(winner)
             elif game.is_board_full():
                 game.game_over = True
                 game.winner = 0
+                game.update_score(0)
             else:
                 game.current_player = 2 if game.current_player == 1 else 1
             
@@ -252,14 +298,41 @@ def init_socketio_handlers(socketio, games):
     
     @socketio.on('disconnect')
     def on_disconnect():
+        if request.sid in connected_users:
+            del connected_users[request.sid]
+            print(f"❌ Utilisateur déconnecté: {request.sid} (Total: {len(connected_users)})")
+        
         for game_id, game in list(games.items()):
             if request.sid in game.players:
                 player_name = game.players[request.sid]['name']
                 del game.players[request.sid]
                 
-                emit('player_left', {
-                    'player_name': player_name,
-                    'players_count': len(game.players)
+                if not game.ai_enabled:
+                    game.game_over = True
+                    socketio.emit('game_ended', {
+                        'reason': 'player_left',
+                        'message': f'{player_name} a quitté la partie. La partie est terminée.',
+                        'redirect': True
+                    }, room=game_id)
+                    
+                    del games[game_id]
+                else:
+                    emit('player_left', {
+                        'player_name': player_name,
+                        'players_count': len(game.players),
+                        'spectators_count': len(game.spectators)
+                    }, room=game_id)
+                
+                leave_room(game_id)
+                break
+            elif request.sid in game.spectators:
+                spectator_name = game.spectators[request.sid]['name']
+                del game.spectators[request.sid]
+                
+                emit('spectator_left', {
+                    'spectator_name': spectator_name,
+                    'players_count': len(game.players),
+                    'spectators_count': len(game.spectators)
                 }, room=game_id)
                 
                 leave_room(game_id)
@@ -297,9 +370,11 @@ def ai_move_delayed(game_id, socketio):
         if winner:
             game.game_over = True
             game.winner = winner
+            game.update_score(winner)
         elif game.is_board_full():
             game.game_over = True
             game.winner = 0
+            game.update_score(0)
         else:
             game.current_player = 1
         

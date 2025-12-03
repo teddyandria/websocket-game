@@ -7,7 +7,6 @@ const ActionsFeed = ({ socket }) => {
   useEffect(() => {
     if (!socket) return;
 
-    // Écouter les actions globales
     socket.on('global_action', (data) => {
       const type = data.action_type || 'message';
       const payload = data.payload || {};
@@ -16,7 +15,6 @@ const ActionsFeed = ({ socket }) => {
       setActions(prev => [...prev, { id: Date.now(), text, type: 'global' }]);
     });
 
-    // Écouter les actions privées
     socket.on('private_action', (data) => {
       const payload = data.payload || {};
       const text = `[PRIVÉ] ${payload.text || JSON.stringify(payload)}`;

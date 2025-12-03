@@ -4,15 +4,16 @@ from auth import admin_required
 
 admin_bp = Blueprint('admin', __name__)
 
-# Variables globales pour les dépendances injectées
 _games = None
 _socketio = None
+_connected_users = None
 
-def init_admin_routes(games, socketio):
+def init_admin_routes(games, socketio, connected_users):
     """Initialise les routes admin avec les dépendances nécessaires"""
-    global _games, _socketio
+    global _games, _socketio, _connected_users
     _games = games
     _socketio = socketio
+    _connected_users = connected_users
 
 @admin_bp.route('/users', methods=['GET'])
 @admin_required
@@ -100,3 +101,49 @@ def admin_terminate_game(game_id):
         return jsonify({'success': True, 'message': 'Partie terminée'})
     else:
         return jsonify({'error': 'Partie non trouvée'}), 404
+
+@admin_bp.route('/connected-users', methods=['GET'])
+@admin_required
+def admin_get_connected_users():
+    users_list = []
+    
+    for sid, user_info in _connected_users.items():
+        in_game = None
+        role = 'idle'
+        
+        for game_id, game in _games.items():
+            if sid in game.players:
+                in_game = game_id
+                role = 'player'
+                break
+            elif sid in game.spectators:
+                in_game = game_id
+                role = 'spectator'
+                break
+        
+        users_list.append({
+            'sid': sid,
+            'username': user_info.get('username', 'Anonyme'),
+            'connected_at': user_info.get('connected_at'),
+            'in_game': in_game,
+            'role': role
+        })
+    
+    return jsonify({'connected_users': users_list, 'count': len(users_list)})
+
+@admin_bp.route('/connected-users/<sid>', methods=['DELETE'])
+@admin_required
+def admin_disconnect_user(sid):
+    if sid not in _connected_users:
+        return jsonify({'error': 'Utilisateur non connecté'}), 404
+    
+    _socketio.emit('force_disconnect', {
+        'message': 'Vous avez été déconnecté par un administrateur'
+    }, to=sid)
+    
+    _socketio.disconnect(sid)
+    
+    if sid in _connected_users:
+        del _connected_users[sid]
+    
+    return jsonify({'success': True, 'message': 'Utilisateur déconnecté'})

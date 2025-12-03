@@ -6,7 +6,6 @@ function PrivateActionForm({ players, onSendPrivate }) {
   const [targetSid, setTargetSid] = useState('');
 
   useEffect(() => {
-    // Reset target if players change
     if (players && Object.keys(players).length > 0) {
       const sids = Object.keys(players);
       if (!targetSid || !sids.includes(targetSid)) {

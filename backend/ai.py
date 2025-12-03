@@ -60,7 +60,6 @@ class PuissanceAI:
     def _minimax(self, board, depth, alpha, beta, maximizing_player, player):
         winner = self._check_winner(board)
         
-        # Cas terminaux
         if depth == 0 or winner != 0 or self._is_board_full(board):
             return self._evaluate_board(board, player), None
         
@@ -79,7 +78,7 @@ class PuissanceAI:
                 
                 alpha = max(alpha, eval_score)
                 if beta <= alpha:
-                    break  # Élagage alpha-beta
+                    break
             
             return max_eval, best_col
         else:
@@ -95,7 +94,7 @@ class PuissanceAI:
                 
                 beta = min(beta, eval_score)
                 if beta <= alpha:
-                    break  # Élagage alpha-beta
+                    break
             
             return min_eval, best_col
     
@@ -146,7 +145,7 @@ class PuissanceAI:
             score += 2
         
         if opponent_count == 3 and empty_count == 1:
-            score -= 80  # Bloquer l'adversaire est important
+            score -= 80
         elif opponent_count == 2 and empty_count == 2:
             score -= 5
         

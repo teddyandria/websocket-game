@@ -6,10 +6,8 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef(null);
 
-  // Convertir players en tableau si c'est un objet
   const playersArray = players ? (Array.isArray(players) ? players : Object.values(players)) : [];
   
-  // Debug: afficher les données pour comprendre le problème
   console.log('ChatBox Debug:', {
     players,
     playersArray,
@@ -17,10 +15,8 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
     isAiGame
   });
   
-  // Trouver l'adversaire (l'autre joueur dans la partie)
   const opponent = playersArray.find(p => p.sid !== playerInfo?.sid);
 
-  // Scroll automatique vers le bas
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -29,7 +25,6 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
     scrollToBottom();
   }, [messages]);
 
-  // Écouter les messages privés
   useEffect(() => {
     if (!socket || isAiGame) return;
 
@@ -55,7 +50,6 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
     
     if (!inputMessage.trim() || !socket || !playerInfo || !opponent) return;
 
-    // Envoyer message privé à l'adversaire
     socket.emit('send_private_message', {
       game_id: gameId,
       target_sid: opponent.sid,
@@ -64,7 +58,6 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
       sender_sid: playerInfo.sid
     });
 
-    // Ajouter immédiatement le message à la liste locale
     setMessages(prev => [...prev, {
       id: Date.now(),
       sender: playerInfo.name,
@@ -84,7 +77,6 @@ function ChatBox({ socket, gameId, playerInfo, players, isAiGame }) {
     });
   };
 
-  // Si c'est une partie contre l'IA, afficher le message de désactivation
   if (isAiGame) {
     return (
       <div className="chat-box">

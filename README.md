@@ -97,8 +97,6 @@ ADMIN_PASSWORD=admin1234
 ADMIN_EMAIL=admin@puissance4.local
 ```
 
-⚠️ **Important** : Changez le mot de passe admin en production !
-
 ### Variables d'environnement
 
 Le fichier `backend/.env` contient :

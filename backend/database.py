@@ -18,7 +18,6 @@ class Database:
         conn = self.get_connection()
         cursor = conn.cursor()
         
-        # Table des utilisateurs
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,7 +36,6 @@ class Database:
             )
         ''')
         
-        # Table des parties (historique)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS game_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,7 +56,6 @@ class Database:
             )
         ''')
         
-        # Table des messages de chat
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS chat_messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,7 +71,6 @@ class Database:
             )
         ''')
         
-        # Table des amis
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS friendships (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -89,7 +85,6 @@ class Database:
             )
         ''')
         
-        # Table des invitations de partie
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS game_invitations (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -113,18 +108,15 @@ class Database:
         cursor = conn.cursor()
         
         try:
-            # Vérifier si l'utilisateur existe déjà
             cursor.execute('SELECT id FROM users WHERE username = ?', (username,))
             existing = cursor.fetchone()
             
             if existing:
-                # Mettre à jour pour être admin
                 cursor.execute('UPDATE users SET is_admin = 1 WHERE username = ?', (username,))
                 conn.commit()
                 conn.close()
                 return existing[0]
             
-            # Créer le nouvel utilisateur admin
             password_hash = self.hash_password(password)
             display_name = display_name or username
             
@@ -273,7 +265,6 @@ class Database:
         ''', (game_id, player1_id, player2_id, player1_name, player2_name,
               winner_id, game_mode, datetime.now(), moves_count, is_guest_game))
         
-        # Met à jour les stats des utilisateurs
         if not is_guest_game:
             if player1_id:
                 cursor.execute('UPDATE users SET games_played = games_played + 1 WHERE id = ?', (player1_id,))
@@ -393,7 +384,6 @@ class Database:
         conn = self.get_connection()
         cursor = conn.cursor()
         
-        # Supprimer les dépendances
         cursor.execute('DELETE FROM chat_messages WHERE sender_id = ? OR recipient_id = ?', (user_id, user_id))
         cursor.execute('DELETE FROM friendships WHERE user_id = ? OR friend_id = ?', (user_id, user_id))
         cursor.execute('DELETE FROM game_invitations WHERE sender_id = ? OR recipient_id = ?', (user_id, user_id))

@@ -171,6 +171,68 @@
   color: #f39c12;
 }
 
+.spectators-title {
+  font-family: 'Cinzel', serif;
+  color: #2c1810;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(218,165,32,0.3);
+}
+
+.spectators-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spectator-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(139,69,19,0.05);
+  border: 1px solid #8b4513;
+  border-left: 3px solid #95a5a6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.spectator-avatar-container {
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+}
+
+.spectator-avatar,
+.spectator-avatar-placeholder {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid #95a5a6;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.spectator-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.spectator-name {
+  font-family: 'Crimson Text', serif;
+  font-size: 15px;
+  color: #2c1810;
+  font-weight: 500;
+}
+
 @media (max-width: 1024px) {
   .players-panel {
     width: 100%;

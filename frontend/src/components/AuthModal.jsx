@@ -15,7 +15,6 @@ function AuthModal({ isOpen, onClose, mode: initialMode = 'login' }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Synchroniser le mode avec le prop quand le modal s'ouvre
   useEffect(() => {
     if (isOpen) {
       setMode(initialMode);
@@ -37,7 +36,7 @@ function AuthModal({ isOpen, onClose, mode: initialMode = 'login' }) {
       ...formData,
       [e.target.name]: e.target.value
     });
-    setError(''); // Effacer l'erreur quand l'utilisateur tape
+    setError('');
   };
 
   const handleSubmit = async (e) => {
@@ -61,7 +60,6 @@ function AuthModal({ isOpen, onClose, mode: initialMode = 'login' }) {
           setError(result.error);
         }
       } else {
-        // Mode inscription
         if (formData.password !== formData.confirmPassword) {
           setError('Les mots de passe ne correspondent pas');
           setLoading(false);

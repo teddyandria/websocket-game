@@ -134,10 +134,12 @@
 
 /* Tables */
 .users-table,
-.games-table {
+.games-table,
+.connected-users-section {
   overflow-x: auto;
 }
 
+.admin-table,
 table {
   width: 100%;
   border-collapse: collapse;
@@ -199,6 +201,21 @@ tbody td {
 .badge-user {
   background: rgba(139, 69, 19, 0.2);
   color: #2c1810;
+}
+
+.badge-idle {
+  background: #95a5a6;
+  color: white;
+}
+
+.badge-player {
+  background: #27ae60;
+  color: white;
+}
+
+.badge-spectator {
+  background: #3498db;
+  color: white;
 }
 
 .btn-small {
