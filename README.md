@@ -23,31 +23,6 @@ Le projet utilise une architecture client-serveur séparée :
 - **Frontend** : React + Vite - Port 5173
 - **Communication** : WebSocket via Socket.IO
 
-## Structure du projet
-
-```
-puissance_4/
-├── backend/
-│   ├── app.py              # Serveur Flask + logique de jeu
-│   ├── ai.py               # Intelligence Artificielle (minimax)
-│   ├── requirements.txt    # Dépendances Python
-│   └── README.md          # Documentation backend
-├── frontend/
-│   ├── package.json        # Dépendances Node.js
-│   ├── vite.config.js      # Configuration Vite
-│   ├── src/
-│   │   ├── main.jsx        # Point d'entrée React
-│   │   ├── App.jsx         # Router principal
-│   │   ├── hooks/          # Custom hooks (useSocket, useGame)
-│   │   ├── components/     # Composants React réutilisables
-│   │   ├── pages/          # Pages (Home, Game)
-│   │   └── styles/         # Fichiers CSS organisés
-│   │       ├── index.css   # Styles globaux
-│   │       ├── components/ # Styles des composants
-│   │       └── pages/      # Styles des pages
-│   └── README.md          # Documentation frontend
-├── README.md              # Cette documentation
-└── DOCUMENTATION.md       # Documentation technique détaillée
 ```
 
 ## Installation
